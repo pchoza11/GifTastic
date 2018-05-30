@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>GIFAPI</title>
+</head>
+<body>
+    
+</body>
+</html>
+<body>
+<button data-team="dodgers">Dodgers</button>
+<button data-team="padres">Padres</button>
+<button data-team="cardinals">Cardinals</button>
+<button data-team="angels">Angels</button>
+<button data-team="mets">Mets</button>
+<button data-team="giants">Giants</button>
+<button data-team="a's">A's</button>
+
+<!-- Rendered Buttons will get Dumped Here  -->
+<div id="buttons-view"></div>
+<br>
+<form id="team-form">
+    <label for="team-input">Add a Team Bro</label>
+    <input type="text" id="team-input">
+    <br>
+
+    <!-- Button triggers new team to be added -->
+    <input id="add-team" type="submit" value="Add a Team Bro">
+</form>
+
+<div id="gifs-appear-here">
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript">
+    // Adding click event listen listener to all buttons
+    $("button").on("click", function() {
+        // Grabbing and storing the data-team property value from the button
+        var team = $(this).attr("data-team");
+
+        // Constructing a queryURL using the team name
+        var queryURL = "https://api.giphy.com/v1/gifs/search?api_key=diisHYIRzkArxVGuo41U2jwD8uQKjJhD&q=" + team +"&limit=10&offset=0&rating=R&lang=en";
+
+        // Performing an AJAX request with the queryURL
+        $.ajax({
+            url: queryURL,
+            method: "GET"
+        })
+        // After data comes back from the request
+        .then(function(response) {
+        console.log(queryURL);
+
+        console.log(response);
+        // storing the data from the AJAX request in the results variable
+        var results = response.data;
+
+        // Looping through each result item
+        for (var i = 0; i < results.length; i++) {
+
+            // Creating and storing a div tag
+            var teamDiv = $("<div>");
+
+            // Creating a paragraph tag with the result item's rating
+            var p = $("<p>").text("Rating: " + data.rating);
+
+            // Creating and storing an image tag
+            var teamImage = $("<img>");
+            // Setting the src attribute of the image to a property pulled off the result item
+            teamImage.attr("src", results[i].data.images.fixed_height.url);
+            console.lof(teamImage)
+
+            // Appending the paragraph and image tag to the teamDiv
+            teamDiv.append(p);
+            teamDiv.append(teamImage);
+
+            // Prependng the teamDiv to the HTML page in the "#gifs-appear-here" div
+            $("#gifs-appear-here").prepend(teamDiv);
+        }
+        });
+    });
+        // Function for displaying movie data
+        function renderButtons() {
+
+        // Deleting the movies prior to adding new movies
+        // (this is necessary otherwise you will have repeat buttons)
+        $("#buttons-view").empty();
+
+        // Looping through the array of movies
+        for (var i = 0; i < teams.length; i++) {
+
+        // Then dynamicaly generating buttons for each movie in the array
+        // This code $("<button>") is all jQuery needs to create the beginning and end tag. (<button></button>)
+        var a = $("<button>");
+        // Adding a class of movie-btn to our button
+        a.addClass("team-btn");
+        // Adding a data-attribute
+        a.attr("data-name", teams[i]);
+        // Providing the initial button text
+        a.text(teams[i]);
+        // Adding the button to the buttons-view div
+        $("#buttons-view").append(a);
+        }
+}
+</script>
+</body>
+
+</html>
